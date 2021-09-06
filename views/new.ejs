@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/autosize.js/5.0.1/autosize.min.js"
+      integrity="sha512-aBxhlAogg9r6Gtes+dsuqW6IQ4Ee0MtjexckbMNOVdxAfi5NSEd38BNEgFiaBWS6cl67r+8OImzxVKDdmswhnA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <title>CodeShare</title>
+  </head>
+  <body>
+    <form action="/save" method="POST">
+      <%- include("_buttons.ejs", {canSave: true}) %>
+      <div class="wrapper">
+        <div class="line-numbers">&gt;</div>
+        <textarea autofocus name="value"><%= locals.value %></textarea>
+      </div>
+    </form>
+    <script>
+      autosize(document.querySelector('textarea'))
+      document
+        .querySelector('textarea')
+        .addEventListener('keydown', function (e) {
+          if (e.key == 'Tab') {
+            e.preventDefault()
+            var start = this.selectionStart
+            var end = this.selectionEnd
+            // set textarea value to: text before caret + tab + text after caret
+            this.value =
+              this.value.substring(0, start) + '  ' + this.value.substring(end)
+            // put caret at right position again
+            this.selectionStart = this.selectionEnd = start + 2
+          }
+        })
+    </script>
+  </body>
+</html>
